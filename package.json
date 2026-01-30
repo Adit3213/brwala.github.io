@@ -1,0 +1,10 @@
+{
+  "name": "brwala-analytics",
+  "version": "1.0.0",
+  "description": "Analytics tracking for Business Registration WALA website",
+  "type": "module",
+  "dependencies": {
+    "@netlify/blobs": "^8.0.0",
+    "@netlify/functions": "^2.0.0"
+  }
+}

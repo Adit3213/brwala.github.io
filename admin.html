@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Admin Dashboard | RegWALA Analytics</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f6f9;
+        }
+        .sidebar {
+            background: linear-gradient(180deg, #1e3a5f 0%, #0d1b2a 100%);
+            min-height: 100vh;
+            color: white;
+            padding-top: 20px;
+        }
+        .sidebar .nav-link {
+            color: rgba(255,255,255,0.8);
+            padding: 12px 20px;
+            margin: 5px 10px;
+            border-radius: 8px;
+        }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+        .stat-card {
+            border-radius: 15px;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        .chart-container {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .table-container {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 200px;
+        }
+        .brand-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+        .main-content {
+            padding: 30px;
+        }
+        .date-filter {
+            background: white;
+            border-radius: 10px;
+            padding: 10px 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 sidebar d-none d-md-block">
+                <div class="brand-logo">
+                    <i class="fas fa-chart-line me-2"></i>RegWALA
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link active" href="#"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
+                    <a class="nav-link" href="index.html"><i class="fas fa-home me-2"></i>Back to Website</a>
+                </nav>
+            </div>
+
+            <div class="col-md-10 main-content">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h2 class="mb-1">Analytics Dashboard</h2>
+                        <p class="text-muted mb-0">Track your website performance</p>
+                    </div>
+                    <div class="date-filter d-flex align-items-center">
+                        <label class="me-2 mb-0">Time Period:</label>
+                        <select id="dateRange" class="form-select form-select-sm" style="width: auto;">
+                            <option value="7">Last 7 Days</option>
+                            <option value="30" selected>Last 30 Days</option>
+                            <option value="90">Last 90 Days</option>
+                        </select>
+                        <button class="btn btn-primary btn-sm ms-2" onclick="loadAnalytics()">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row g-4 mb-4">
+                    <div class="col-md-4">
+                        <div class="card stat-card h-100">
+                            <div class="card-body d-flex align-items-center">
+                                <div class="stat-icon bg-primary bg-opacity-10 text-primary me-3">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div>
+                                    <h6 class="text-muted mb-1">Total Visitors</h6>
+                                    <h3 class="mb-0" id="totalVisitors">-</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card stat-card h-100">
+                            <div class="card-body d-flex align-items-center">
+                                <div class="stat-icon bg-success bg-opacity-10 text-success me-3">
+                                    <i class="fas fa-file-alt"></i>
+                                </div>
+                                <div>
+                                    <h6 class="text-muted mb-1">Form Submissions (Purchases)</h6>
+                                    <h3 class="mb-0" id="totalForms">-</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card stat-card h-100">
+                            <div class="card-body d-flex align-items-center">
+                                <div class="stat-icon bg-whatsapp text-white me-3" style="background-color: #25d366;">
+                                    <i class="fab fa-whatsapp"></i>
+                                </div>
+                                <div>
+                                    <h6 class="text-muted mb-1">WhatsApp Contacts</h6>
+                                    <h3 class="mb-0" id="totalWhatsapp">-</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-4 mb-4">
+                    <div class="col-md-8">
+                        <div class="chart-container">
+                            <h5 class="mb-3"><i class="fas fa-chart-area me-2 text-primary"></i>Visitor Traffic</h5>
+                            <canvas id="trafficChart" height="100"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="chart-container h-100">
+                            <h5 class="mb-3"><i class="fas fa-chart-pie me-2 text-primary"></i>Conversions</h5>
+                            <canvas id="conversionsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="table-container">
+                            <h5 class="mb-3"><i class="fas fa-file me-2 text-primary"></i>Page Performance</h5>
+                            <div class="table-responsive">
+                                <table class="table table-hover" id="pageTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Page</th>
+                                            <th class="text-end">Views</th>
+                                            <th class="text-end">%</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td colspan="3" class="text-center text-muted">Loading...</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="table-container">
+                            <h5 class="mb-3"><i class="fas fa-shopping-cart me-2 text-primary"></i>Service Inquiries</h5>
+                            <div class="table-responsive">
+                                <table class="table table-hover" id="serviceTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Service</th>
+                                            <th class="text-end">Inquiries</th>
+                                            <th class="text-end">%</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td colspan="3" class="text-center text-muted">Loading...</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-4 text-muted">
+                    <small>Analytics data is collected locally and stored securely on Netlify.</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let trafficChart = null;
+        let conversionsChart = null;
+
+        async function loadAnalytics() {
+            const days = document.getElementById('dateRange').value;
+
+            try {
+                const response = await fetch(`/api/analytics?days=${days}`);
+                const data = await response.json();
+
+                updateSummaryCards(data.summary);
+                updateTrafficChart(data.dailyStats);
+                updateConversionsChart(data.summary);
+                updatePageTable(data.pageBreakdown, data.summary.totalPageviews);
+                updateServiceTable(data.serviceBreakdown, data.summary.totalFormSubmissions);
+            } catch (error) {
+                console.error('Failed to load analytics:', error);
+                document.getElementById('totalVisitors').textContent = '0';
+                document.getElementById('totalForms').textContent = '0';
+                document.getElementById('totalWhatsapp').textContent = '0';
+            }
+        }
+
+        function updateSummaryCards(summary) {
+            document.getElementById('totalVisitors').textContent = formatNumber(summary.totalPageviews);
+            document.getElementById('totalForms').textContent = formatNumber(summary.totalFormSubmissions);
+            document.getElementById('totalWhatsapp').textContent = formatNumber(summary.totalWhatsappClicks);
+        }
+
+        function updateTrafficChart(dailyStats) {
+            const ctx = document.getElementById('trafficChart').getContext('2d');
+
+            if (trafficChart) {
+                trafficChart.destroy();
+            }
+
+            const labels = dailyStats.map(d => formatDate(d.date));
+            const pageviews = dailyStats.map(d => d.pageviews);
+            const forms = dailyStats.map(d => d.formSubmissions);
+            const whatsapp = dailyStats.map(d => d.whatsappClicks);
+
+            trafficChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Page Views',
+                            data: pageviews,
+                            borderColor: '#0d6efd',
+                            backgroundColor: 'rgba(13, 110, 253, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Form Submissions',
+                            data: forms,
+                            borderColor: '#198754',
+                            backgroundColor: 'rgba(25, 135, 84, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'WhatsApp Clicks',
+                            data: whatsapp,
+                            borderColor: '#25d366',
+                            backgroundColor: 'rgba(37, 211, 102, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateConversionsChart(summary) {
+            const ctx = document.getElementById('conversionsChart').getContext('2d');
+
+            if (conversionsChart) {
+                conversionsChart.destroy();
+            }
+
+            conversionsChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Form Submissions', 'WhatsApp Contacts', 'Views Only'],
+                    datasets: [{
+                        data: [
+                            summary.totalFormSubmissions,
+                            summary.totalWhatsappClicks,
+                            Math.max(0, summary.totalPageviews - summary.totalFormSubmissions - summary.totalWhatsappClicks)
+                        ],
+                        backgroundColor: ['#198754', '#25d366', '#e9ecef'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        function updatePageTable(pageBreakdown, total) {
+            const tbody = document.querySelector('#pageTable tbody');
+
+            if (Object.keys(pageBreakdown).length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" class="text-center text-muted">No data available</td></tr>';
+                return;
+            }
+
+            const sorted = Object.entries(pageBreakdown).sort((a, b) => b[1] - a[1]);
+
+            tbody.innerHTML = sorted.map(([page, count]) => {
+                const percent = total > 0 ? ((count / total) * 100).toFixed(1) : 0;
+                const pageName = getPageDisplayName(page);
+                return `
+                    <tr>
+                        <td><i class="fas fa-file-alt me-2 text-muted"></i>${pageName}</td>
+                        <td class="text-end">${formatNumber(count)}</td>
+                        <td class="text-end"><span class="badge bg-primary">${percent}%</span></td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function updateServiceTable(serviceBreakdown, total) {
+            const tbody = document.querySelector('#serviceTable tbody');
+
+            if (Object.keys(serviceBreakdown).length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" class="text-center text-muted">No data available</td></tr>';
+                return;
+            }
+
+            const sorted = Object.entries(serviceBreakdown).sort((a, b) => b[1] - a[1]);
+            const colors = {
+                'UDYAM': 'warning',
+                'GST': 'success',
+                'FSSAI': 'danger',
+                'default': 'secondary'
+            };
+
+            tbody.innerHTML = sorted.map(([service, count]) => {
+                const percent = total > 0 ? ((count / total) * 100).toFixed(1) : 0;
+                const color = colors[service] || colors['default'];
+                return `
+                    <tr>
+                        <td><span class="badge bg-${color} me-2">${service}</span></td>
+                        <td class="text-end">${formatNumber(count)}</td>
+                        <td class="text-end"><span class="badge bg-primary">${percent}%</span></td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function getPageDisplayName(page) {
+            const names = {
+                '/': 'Home Page',
+                '/index.html': 'Home Page',
+                '/udyam.html': 'UDYAM Registration',
+                '/gst.html': 'GST Registration',
+                '/gst.html.html': 'GST Registration',
+                '/fssai.html': 'FSSAI License',
+                '/fssai.html.html': 'FSSAI License'
+            };
+            return names[page] || page;
+        }
+
+        function formatNumber(num) {
+            return new Intl.NumberFormat().format(num || 0);
+        }
+
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-IN', { month: 'short', day: 'numeric' });
+        }
+
+        document.getElementById('dateRange').addEventListener('change', loadAnalytics);
+
+        loadAnalytics();
+    </script>
+</body>
+</html>
