@@ -7,6 +7,16 @@
     
     <meta name="google-site-verification" content="ibGHKFycX37kGz-NYb-w7vAeTJZvw7miSJkFxqsMMiI" />
 
+    <!-- ✅ Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GM5PH54K4G"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-GM5PH54K4G');
+    </script>
+
+    <!-- ✅ Facebook Pixel -->
     <script>
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -19,196 +29,147 @@
     fbq('init', '876881868634084');
     fbq('track', 'PageView');
     </script>
-    <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=876881868634084&ev=PageView&noscript=1"
-    /></noscript>
+    <noscript>
+    <img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=876881868634084&ev=PageView&noscript=1"/>
+    </noscript>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; top: 0 !important; }
-        
-        /* Hero Section */
+        body { font-family: 'Segoe UI', sans-serif; top: 0 !important; }
+
         .hero-section {
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920'); 
-            background-size: cover; color: white; padding: 120px 0;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+            url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920');
+            background-size: cover;
+            color: white;
+            padding: 120px 0;
         }
 
         .service-card { transition: 0.3s; border: none; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         .service-card:hover { transform: translateY(-10px); }
-        
+
         .feature-list { list-style: none; padding: 0; text-align: left; margin: 15px 0; }
-        .feature-list li { margin-bottom: 8px; font-size: 0.9rem; color: #555; }
+        .feature-list li { margin-bottom: 8px; font-size: 0.9rem; }
 
-        /* WhatsApp Float */
         .whatsapp-float {
-            position: fixed; bottom: 20px; right: 20px; background: #25d366; color: white;
-            width: 60px; height: 60px; border-radius: 50%; font-size: 30px; display: flex;
-            align-items: center; justify-content: center; text-decoration: none; z-index: 1000;
+            position: fixed; bottom: 20px; right: 20px;
+            background: #25d366; color: white;
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            font-size: 30px;
+            display: flex; align-items: center; justify-content: center;
+            text-decoration: none;
+            z-index: 1000;
         }
-
-        /* Language Button Styling */
-        .lang-btn { width: 100%; border: 1px solid #ddd; padding: 12px; border-radius: 8px; background: #fff; margin-bottom: 10px; cursor: pointer; text-align: left; font-weight: 600; }
-        .lang-btn:hover { background: #f0f0f0; border-color: #0d6efd; color: #0d6efd; }
-
-        /* Hidden Google Translate */
-        #google_translate_element { position: absolute; top: 0; left: 0; opacity: 0; z-index: -1; width: 1px; height: 1px; overflow: hidden; }
-        .goog-te-banner-frame { display: none !important; }
     </style>
 </head>
+
 <body>
 
-    <div class="modal fade" id="languageModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title"><i class="fas fa-language"></i> Select Language / भाषा चुनें</h5>
-                </div>
-                <div class="modal-body bg-light">
-                    <p class="text-center text-muted mb-4">Select your preferred language.</p>
-                    <div class="row">
-                        <div class="col-6 col-md-4"><div class="lang-btn" onclick="applyLanguage('en')">🇬🇧 English</div></div>
-                        <div class="col-6 col-md-4"><div class="lang-btn" onclick="applyLanguage('hi')">🇮🇳 Hindi (हिन्दी)</div></div>
-                        <div class="col-6 col-md-4"><div class="lang-btn" onclick="applyLanguage('bn')">🇮🇳 Bengali (বাংলা)</div></div>
-                        <div class="col-6 col-md-4"><div class="lang-btn" onclick="applyLanguage('mr')">🇮🇳 Marathi (मराठी)</div></div>
-                        <div class="col-6 col-md-4"><div class="lang-btn" onclick="applyLanguage('te')">🇮🇳 Telugu (తెలుగు)</div></div>
-                        <div class="col-6 col-md-4"><div class="lang-btn" onclick="applyLanguage('ta')">🇮🇳 Tamil (தமிழ்)</div></div>
-                        <div class="col-6 col-md-4"><div class="lang-btn" onclick="applyLanguage('gu')">🇮🇳 Gujarati (ગુજરાતી)</div></div>
-                        <div class="col-6 col-md-4"><div class="lang-btn" onclick="applyLanguage('kn')">🇮🇳 Kannada (ಕನ್ನಡ)</div></div>
-                        <div class="col-6 col-md-4"><div class="lang-btn" onclick="applyLanguage('ml')">🇮🇳 Malayalam (മലയാളം)</div></div>
-                        <div class="col-6 col-md-4"><div class="lang-btn" onclick="applyLanguage('pa')">🇮🇳 Punjabi (ਪੰਜਾਬੀ)</div></div>
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold text-primary" href="index.html">
+            <i class="fas fa-briefcase"></i> RegWALA
+        </a>
+        <a href="https://wa.me/916006936035"
+           onclick="gtag('event','whatsapp_click',{
+           event_category:'engagement',
+           event_label:'Navbar WhatsApp'
+           });"
+           class="btn btn-success btn-sm">
+           <i class="fab fa-whatsapp"></i> WhatsApp
+        </a>
+    </div>
+</nav>
+
+<header class="hero-section text-center">
+    <div class="container">
+        <h1 class="display-4 fw-bold">India's Business Registration Experts</h1>
+        <p class="lead">Fast & Affordable UDYAM, GST, and FSSAI Services.</p>
+        <a href="#contact" class="btn btn-primary btn-lg">Apply Now</a>
+    </div>
+</header>
+
+<section id="services" class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5 fw-bold">Our Professional Services</h2>
+        <div class="row g-4">
+
+            <div class="col-md-4">
+                <div class="card service-card h-100 p-4">
+                    <div class="text-center">
+                        <i class="fas fa-industry fa-3x text-warning mb-3"></i>
                     </div>
+                    <h4 class="text-center">UDYAM (MSME)</h4>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card service-card h-100 p-4">
+                    <div class="text-center">
+                        <i class="fas fa-file-invoice-dollar fa-3x text-success mb-3"></i>
+                    </div>
+                    <h4 class="text-center">GST Registration</h4>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card service-card h-100 p-4">
+                    <div class="text-center">
+                        <i class="fas fa-utensils fa-3x text-danger mb-3"></i>
+                    </div>
+                    <h4 class="text-center">FSSAI License</h4>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow p-4">
+                    <h3 class="text-center mb-3">Request Call Back</h3>
+                    
+                    <form action="https://formspree.io/f/xeejvlwy"
+                          method="POST"
+                          onsubmit="gtag('event','form_submit',{
+                          event_category:'lead',
+                          event_label:'Callback Form'
+                          });">
+                          
+                        <input type="text" name="name" class="form-control mb-3" placeholder="Name" required>
+                        <input type="tel" name="phone" class="form-control mb-3" placeholder="Mobile Number" required>
+                        <select name="service" class="form-select mb-3">
+                            <option>UDYAM Registration</option>
+                            <option>GST Registration</option>
+                            <option>FSSAI License</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary w-100">Submit</button>
+                    </form>
+
                 </div>
             </div>
         </div>
     </div>
+</section>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
-        <div class="container">
-            <a class="navbar-brand fw-bold text-primary" href="index.html"><i class="fas fa-briefcase"></i> RegWALA</a>
-            <div class="d-flex align-items-center">
-                <a class="nav-link me-3 fw-bold" href="#" onclick="openLangModal()"><i class="fas fa-globe"></i> Lang</a>
-                <a href="https://wa.me/916006936035" class="btn btn-success btn-sm"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-            </div>
-        </div>
-    </nav>
+<!-- ✅ Floating WhatsApp -->
+<a href="https://wa.me/916006936035"
+   onclick="gtag('event','whatsapp_click',{
+   event_category:'engagement',
+   event_label:'Floating WhatsApp'
+   });"
+   class="whatsapp-float">
+   <i class="fab fa-whatsapp"></i>
+</a>
 
-    <div id="google_translate_element"></div>
-
-    <header class="hero-section text-center">
-        <div class="container">
-            <h1 class="display-4 fw-bold">India's Business Registration Experts</h1>
-            <p class="lead">Fast & Affordable UDYAM, GST, and FSSAI Services.</p>
-            <a href="#contact" class="btn btn-primary btn-lg">Apply Now</a>
-        </div>
-    </header>
-
-    <section id="services" class="py-5 bg-light">
-        <div class="container">
-            <h2 class="text-center mb-5 fw-bold">Our Professional Services</h2>
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="card service-card h-100 p-4">
-                        <div class="text-center"><i class="fas fa-industry fa-3x text-warning mb-3"></i></div>
-                        <h4 class="text-center">UDYAM (MSME)</h4>
-                        <ul class="feature-list">
-                            <li><i class="fas fa-check text-success"></i> Govt Loan Priority (Mudra)</li>
-                            <li><i class="fas fa-check text-success"></i> Electricity Bill Subsidy</li>
-                        </ul>
-                        <div class="mt-auto text-center"><a href="udyam.html" class="btn btn-outline-primary w-100">View Details</a></div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card service-card h-100 p-4">
-                        <div class="text-center"><i class="fas fa-file-invoice-dollar fa-3x text-success mb-3"></i></div>
-                        <h4 class="text-center">GST Registration</h4>
-                        <ul class="feature-list">
-                            <li><i class="fas fa-check text-success"></i> Sell Online (Amazon/Flipkart)</li>
-                            <li><i class="fas fa-check text-success"></i> Input Tax Credit</li>
-                        </ul>
-                        <div class="mt-auto text-center"><a href="gst.html" class="btn btn-outline-primary w-100">View Details</a></div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card service-card h-100 p-4">
-                        <div class="text-center"><i class="fas fa-utensils fa-3x text-danger mb-3"></i></div>
-                        <h4 class="text-center">FSSAI License</h4>
-                        <ul class="feature-list">
-                            <li><i class="fas fa-check text-success"></i> Avoid Heavy Fines</li>
-                            <li><i class="fas fa-check text-success"></i> Customer Trust</li>
-                        </ul>
-                        <div class="mt-auto text-center"><a href="fssai.html" class="btn btn-outline-primary w-100">View Details</a></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact" class="py-5">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="card shadow p-4">
-                        <h3 class="text-center mb-3">Request Call Back</h3>
-                        <form action="https://formspree.io/f/xeejvlwy" method="POST">
-                            <input type="text" name="name" class="form-control mb-3" placeholder="Name" required>
-                            <input type="tel" name="phone" class="form-control mb-3" placeholder="Mobile Number" required>
-                            <select name="service" class="form-select mb-3">
-                                <option>UDYAM Registration</option><option>GST Registration</option><option>FSSAI License</option>
-                            </select>
-                            <button type="submit" class="btn btn-primary w-100">Submit</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <a href="https://wa.me/916006936035" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({
-                pageLanguage: 'en',
-                includedLanguages: 'en,hi,bn,te,mr,ta,gu,kn,ml,pa',
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-                autoDisplay: false
-            }, 'google_translate_element');
-        }
-        window.addEventListener('load', function() {
-            if (!getCookie('googtrans') && !localStorage.getItem('langSelected')) {
-                var modal = new bootstrap.Modal(document.getElementById('languageModal'));
-                modal.show();
-            }
-        });
-        function applyLanguage(lang) {
-            setCookie('googtrans', '/en/' + lang, 1);
-            setCookie('googtrans', '/en/' + lang, 1, '.google.com'); 
-            localStorage.setItem('langSelected', 'true');
-            var modalElement = document.getElementById('languageModal');
-            var modal = bootstrap.Modal.getInstance(modalElement);
-            if (modal) modal.hide();
-            var select = document.querySelector("select.goog-te-combo");
-            if (select) { select.value = lang; select.dispatchEvent(new Event("change")); }
-            else { location.reload(); }
-        }
-        function setCookie(key, value, expiry) {
-            var expires = new Date(); expires.setTime(expires.getTime() + (expiry * 24 * 60 * 60 * 1000));
-            document.cookie = key + '=' + value + ';expires=' + expires.toUTCString() + ';path=/';
-        }
-        function getCookie(key) {
-            var keyValue = document.cookie.match('(^|;) ?' + key + '=([^;]*)(;|$)');
-            return keyValue ? keyValue[2] : null;
-        }
-        function openLangModal() {
-            var modal = new bootstrap.Modal(document.getElementById('languageModal'));
-            modal.show();
-        }
-    </script>
-    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-    <script src="js/analytics.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
